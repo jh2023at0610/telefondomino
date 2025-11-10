@@ -1,0 +1,13 @@
+PLACEHOLDER FILE - Replace with actual 192x192 PNG icon
+
+To create proper icons:
+1. Go to https://www.pwabuilder.com/imageGenerator
+2. Upload your logo/image
+3. Download the generated icons
+4. Replace this file with the actual icon-192.png
+
+For now, you can ignore this error - the game works fine without icons!
+
+
+
+
