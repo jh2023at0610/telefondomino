@@ -652,13 +652,13 @@ export default function GamePage({ params }: { params: { code: string } }) {
         </div>
 
         {/* Board - Optimized for more tiles */}
-        <div className="bg-gray-800/50 rounded-2xl p-4 border border-gray-700">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="text-xs text-gray-400">
+        <div className="bg-gray-800/50 rounded-2xl p-2 sm:p-4 border border-gray-700">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="text-[10px] sm:text-xs text-gray-400">
               Board: {gameState.board.length} tiles
             </div>
             {gameState.lastScore > 0 && (
-              <div className="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded-full">
+              <div className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-500/20 text-green-400 text-[10px] sm:text-xs font-medium rounded-full">
                 +{gameState.lastScore}
               </div>
             )}
@@ -677,69 +677,71 @@ export default function GamePage({ params }: { params: { code: string } }) {
           />
 
           {(gameState.board.length > 0 || gameState.is4WayActive) && (
-            <div className="flex flex-wrap items-center gap-3 text-xs text-gray-400 mt-2">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-3 text-[10px] sm:text-xs text-gray-400 mt-2">
               {!gameState.is4WayActive ? (
                 // 2-WAY MODE: Left + Right
                 <>
-                  <div>
-                    Left: <span className="text-white font-bold">{gameState.openEnds.left}</span>
+                  <div className="bg-gray-700/30 px-1.5 py-0.5 rounded">
+                    L: <span className="text-white font-bold">{gameState.openEnds.left}</span>
                     {gameState.openEnds.leftIsDouble && (
-                      <span className="ml-0.5 text-yellow-400 text-[10px]">(×2)</span>
+                      <span className="ml-0.5 text-yellow-400">(×2)</span>
                     )}
                   </div>
-                  <div>
-                    Right: <span className="text-white font-bold">{gameState.openEnds.right}</span>
+                  <div className="bg-gray-700/30 px-1.5 py-0.5 rounded">
+                    R: <span className="text-white font-bold">{gameState.openEnds.right}</span>
                     {gameState.openEnds.rightIsDouble && (
-                      <span className="ml-0.5 text-yellow-400 text-[10px]">(×2)</span>
+                      <span className="ml-0.5 text-yellow-400">(×2)</span>
                     )}
                   </div>
-                  <div>
-                    Sum: <span className="text-white font-bold">
-                      {((gameState.openEnds.leftIsDouble ? gameState.openEnds.left! * 2 : gameState.openEnds.left!) + 
-                        (gameState.openEnds.rightIsDouble ? gameState.openEnds.right! * 2 : gameState.openEnds.right!))}
-                    </span>
+                  <div className="bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded font-semibold">
+                    Sum: {((gameState.openEnds.leftIsDouble ? gameState.openEnds.left! * 2 : gameState.openEnds.left!) + 
+                      (gameState.openEnds.rightIsDouble ? gameState.openEnds.right! * 2 : gameState.openEnds.right!))}
                     {((gameState.openEnds.leftIsDouble ? gameState.openEnds.left! * 2 : gameState.openEnds.left!) + 
                       (gameState.openEnds.rightIsDouble ? gameState.openEnds.right! * 2 : gameState.openEnds.right!)) % 5 === 0 && (
-                      <span className="ml-1 text-green-400 text-xs">✨</span>
+                      <span className="ml-1">✨</span>
                     )}
                   </div>
                 </>
               ) : (
                 // 4-WAY MODE: All 4 directions
                 <>
-                  <div className="font-bold text-yellow-400">🔒 4-WAY ACTIVE!</div>
-                  <div>
+                  <div className="font-bold text-yellow-400 px-1.5 py-0.5 bg-yellow-500/10 rounded">🔒 4-WAY!</div>
+                  <div className="bg-gray-700/30 px-1.5 py-0.5 rounded">
                     L: <span className="text-white font-bold">{gameState.openEnds.left}</span>
-                    {gameState.openEnds.leftIsDouble && <span className="text-yellow-400 text-[10px]">(×2)</span>}
+                    {gameState.openEnds.leftIsDouble && <span className="text-yellow-400">(×2)</span>}
                   </div>
-                  <div>
+                  <div className="bg-gray-700/30 px-1.5 py-0.5 rounded">
                     R: <span className="text-white font-bold">{gameState.openEnds.right}</span>
-                    {gameState.openEnds.rightIsDouble && <span className="text-yellow-400 text-[10px]">(×2)</span>}
+                    {gameState.openEnds.rightIsDouble && <span className="text-yellow-400">(×2)</span>}
                   </div>
                   {gameState.upChain.length > 0 && (
-                    <div>
+                    <div className="bg-gray-700/30 px-1.5 py-0.5 rounded">
                       U: <span className="text-white font-bold">{gameState.openEnds.up}</span>
-                      {gameState.openEnds.upIsDouble && <span className="text-yellow-400 text-[10px]">(×2)</span>}
+                      {gameState.openEnds.upIsDouble && <span className="text-yellow-400">(×2)</span>}
                     </div>
                   )}
                   {gameState.downChain.length > 0 && (
-                    <div>
+                    <div className="bg-gray-700/30 px-1.5 py-0.5 rounded">
                       D: <span className="text-white font-bold">{gameState.openEnds.down}</span>
-                      {gameState.openEnds.downIsDouble && <span className="text-yellow-400 text-[10px]">(×2)</span>}
+                      {gameState.openEnds.downIsDouble && <span className="text-yellow-400">(×2)</span>}
                     </div>
                   )}
                 </>
               )}
-              <div>Stock: <span className="text-white font-bold">{gameState.stockCount}</span></div>
+              <div className="bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">
+                Stock: <span className="font-bold">{gameState.stockCount}</span>
+              </div>
             </div>
           )}
         </div>
 
-        {/* My Hand - Compact */}
-        <div className="bg-gray-800/50 rounded-2xl p-4 border border-gray-700">
-          <h3 className="text-base font-semibold text-white mb-3">Your Hand ({gameState.myHand.length} tiles)</h3>
+        {/* My Hand - Compact & Mobile-Friendly */}
+        <div className="bg-gray-800/50 rounded-2xl p-3 sm:p-4 border border-gray-700">
+          <h3 className="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3">
+            Your Hand ({gameState.myHand.length} tiles)
+          </h3>
           
-          <div className="flex flex-wrap gap-2 mb-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mb-3 justify-center sm:justify-start">
             {gameState.myHand.length === 0 ? (
               <p className="text-gray-500 text-sm">No tiles in hand</p>
             ) : (
@@ -758,32 +760,34 @@ export default function GamePage({ params }: { params: { code: string } }) {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3">
+          <div className="flex gap-2 sm:gap-3 flex-wrap">
             <button
               onClick={handleDrawTile}
               disabled={!isMyTurn || acting || gameState.stockCount === 0 || hasValidMoves}
-              className="px-6 py-3 bg-purple-500 hover:bg-purple-600 disabled:bg-gray-700 disabled:text-gray-500 text-white font-medium rounded-lg transition-colors flex items-center gap-2"
+              className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-purple-500 hover:bg-purple-600 disabled:bg-gray-700 disabled:text-gray-500 text-white text-sm sm:text-base font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
               title={hasValidMoves ? "You must play a tile first!" : "Draw a tile from the bazar"}
             >
-              <Download className="w-5 h-5" />
-              Draw from Bazar ({gameState.stockCount})
+              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Draw from Bazar</span>
+              <span className="sm:hidden">Draw</span>
+              <span>({gameState.stockCount})</span>
             </button>
 
           </div>
           
           {/* Help Text */}
           {isMyTurn && (
-            <div className="mt-3 text-sm text-gray-400 space-y-1">
+            <div className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-400 space-y-1">
               {isEmptyBoard ? (
-                <p>🎯 <span className="text-blue-400 font-semibold">Pick ANY tile to start the game!</span> {gameState.gameIndex > 0 && <span className="text-yellow-400">(Hint: [5-5] scores 10 if you have {'<'} 300 points)</span>}</p>
+                <p>🎯 <span className="text-blue-400 font-semibold">Pick ANY tile to start!</span> {gameState.gameIndex > 0 && <span className="text-yellow-400 block sm:inline">(Hint: [5-5] scores 10 if {'<'} 300pts)</span>}</p>
               ) : hasValidMoves ? (
                 <p>💡 Click a tile to play it</p>
               ) : gameState.stockCount > 0 ? (
                 <p>💡 No valid moves - draw from bazar</p>
               ) : (
                 <>
-                  <p>💡 No valid moves and bazar is empty - turn will pass automatically</p>
-                  <p className="text-xs text-yellow-400">⚠️ If all players pass, the game is blocked. Player with lowest pip count wins!</p>
+                  <p>💡 No moves, bazar empty - auto-pass</p>
+                  <p className="text-[10px] sm:text-xs text-yellow-400">⚠️ All pass = blocked game. Lowest pips wins!</p>
                 </>
               )}
             </div>

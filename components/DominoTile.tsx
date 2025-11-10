@@ -25,17 +25,20 @@ export function DominoTile({
   // Auto-orientation: doubles are vertical, others horizontal
   const isVertical = orientation === 'vertical' || (orientation === 'auto' && isDouble);
   
-  // Size classes based on orientation (smaller for better board display)
+  // Size classes based on orientation - RESPONSIVE for mobile
   const sizeClasses = {
-    sm: isVertical ? 'w-8 h-16' : 'w-16 h-8',  // Smaller for board
-    md: isVertical ? 'w-12 h-24' : 'w-24 h-12', // Medium for hand
-    lg: isVertical ? 'w-16 h-32' : 'w-32 h-16', // Large for selection
+    // Board tiles - smaller, more compact
+    sm: isVertical ? 'w-7 h-14 sm:w-8 sm:h-16' : 'w-14 h-7 sm:w-16 sm:h-8',
+    // Hand tiles - larger on mobile for better touch targets
+    md: isVertical ? 'w-14 h-28 sm:w-12 sm:h-24 md:w-14 md:h-28' : 'w-28 h-14 sm:w-24 sm:h-12 md:w-28 md:h-14',
+    // Selection/Modal tiles - nice and big
+    lg: isVertical ? 'w-16 h-32 sm:w-18 sm:h-36' : 'w-32 h-16 sm:w-36 sm:h-18',
   };
 
   const dotSizes = {
-    sm: 'w-1 h-1',     // Smaller dots for small tiles
-    md: 'w-1.5 h-1.5', // Medium dots
-    lg: 'w-2 h-2',     // Larger dots
+    sm: 'w-1 h-1 sm:w-1.5 sm:h-1.5',        // Responsive dots
+    md: 'w-1.5 h-1.5 sm:w-2 sm:h-2',        // Bigger on mobile
+    lg: 'w-2 h-2 sm:w-2.5 sm:h-2.5',        // Even bigger
   };
 
   const renderDots = (value: number) => {
