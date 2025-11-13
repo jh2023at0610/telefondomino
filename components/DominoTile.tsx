@@ -59,39 +59,47 @@ export function DominoTile({
 
     const dots = positions[value] || [];
 
+    // Better spacing for mobile - dots won't get cut off
+    const spacing = {
+      sm: '0.375rem',  // 6px for small tiles (board)
+      md: '0.5rem',    // 8px for medium tiles (hand)
+      lg: '0.625rem',  // 10px for large tiles (modals)
+    };
+
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative w-full h-full flex items-center justify-center p-0.5">
         {dots.map((pos, idx) => {
-          let positionClass = '';
+          let positionStyle: React.CSSProperties = {};
           
           switch (pos) {
             case 'top-left':
-              positionClass = 'top-1 left-1';
+              positionStyle = { top: spacing[size], left: spacing[size] };
               break;
             case 'top-right':
-              positionClass = 'top-1 right-1';
+              positionStyle = { top: spacing[size], right: spacing[size] };
               break;
             case 'middle-left':
-              positionClass = 'top-1/2 -translate-y-1/2 left-1';
+              positionStyle = { top: '50%', left: spacing[size], transform: 'translateY(-50%)' };
               break;
             case 'middle-right':
-              positionClass = 'top-1/2 -translate-y-1/2 right-1';
+              positionStyle = { top: '50%', right: spacing[size], transform: 'translateY(-50%)' };
               break;
             case 'center':
-              positionClass = 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
+              positionStyle = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
               break;
             case 'bottom-left':
-              positionClass = 'bottom-1 left-1';
+              positionStyle = { bottom: spacing[size], left: spacing[size] };
               break;
             case 'bottom-right':
-              positionClass = 'bottom-1 right-1';
+              positionStyle = { bottom: spacing[size], right: spacing[size] };
               break;
           }
 
           return (
             <div
               key={idx}
-              className={`absolute ${positionClass} ${dotSizes[size]} bg-gray-900 rounded-full`}
+              style={positionStyle}
+              className={`absolute ${dotSizes[size]} bg-gray-900 rounded-full`}
             />
           );
         })}
@@ -144,12 +152,12 @@ export function DominoTile({
       `}
     >
       {/* First half (top for vertical, left for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-1`}>
+      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-1.5`}>
         {renderDots(tile[0])}
       </div>
       
       {/* Second half (bottom for vertical, right for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-1`}>
+      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-1.5`}>
         {renderDots(tile[1])}
       </div>
     </motion.button>
