@@ -1,6 +1,7 @@
 'use client';
 
 import { Tile } from '@/types/game';
+import { motion } from 'framer-motion';
 
 interface DominoTileProps {
   tile: Tile;
@@ -8,7 +9,9 @@ interface DominoTileProps {
   disabled?: boolean;
   highlighted?: boolean;
   size?: 'sm' | 'md' | 'lg';
-  orientation?: 'horizontal' | 'vertical' | 'auto'; // New prop for orientation
+  orientation?: 'horizontal' | 'vertical' | 'auto';
+  animateEntry?: boolean; // Animate when tile first appears
+  delay?: number; // Stagger animation delay
 }
 
 export function DominoTile({ 
@@ -17,7 +20,9 @@ export function DominoTile({
   disabled, 
   highlighted, 
   size = 'md',
-  orientation = 'auto' 
+  orientation = 'auto',
+  animateEntry = false,
+  delay = 0
 }: DominoTileProps) {
   // Determine if tile is a double
   const isDouble = tile[0] === tile[1];
@@ -95,9 +100,35 @@ export function DominoTile({
   };
 
   return (
-    <button
+    <motion.button
       onClick={onClick}
       disabled={disabled || !onClick}
+      
+      // Entry animation (when tile first appears)
+      initial={animateEntry ? { scale: 0, opacity: 0, rotateZ: -180 } : false}
+      animate={animateEntry ? { scale: 1, opacity: 1, rotateZ: 0 } : {}}
+      transition={animateEntry ? {
+        type: 'spring',
+        stiffness: 200,
+        damping: 20,
+        delay,
+      } : {}}
+      
+      // Tap/Click animations - MOBILE-OPTIMIZED
+      whileTap={onClick && !disabled ? { 
+        scale: 0.9,
+        rotate: isDouble ? 0 : (Math.random() > 0.5 ? 2 : -2),
+        transition: { duration: 0.1 }
+      } : {}}
+      
+      // Hover animation (desktop only, no lag on mobile)
+      whileHover={onClick && !disabled ? {
+        scale: 1.05,
+        y: -4,
+        boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.3)',
+        transition: { duration: 0.2 }
+      } : {}}
+      
       className={`
         ${sizeClasses[size]}
         relative
@@ -105,10 +136,8 @@ export function DominoTile({
         rounded-lg
         shadow-lg
         border-2
-        transition-all
-        duration-200
-        ${onClick && !disabled ? 'cursor-pointer hover:scale-105 hover:shadow-xl' : 'cursor-default'}
-        ${highlighted ? 'border-blue-400 ring-2 ring-blue-400/50' : 'border-gray-300'}
+        ${onClick && !disabled ? 'cursor-pointer' : 'cursor-default'}
+        ${highlighted ? 'border-blue-400 ring-4 ring-blue-400/50 shadow-blue-400/50' : 'border-gray-300'}
         ${disabled ? 'opacity-50' : ''}
         flex
         ${isVertical ? 'flex-col' : 'flex-row'}
@@ -123,7 +152,7 @@ export function DominoTile({
       <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-1`}>
         {renderDots(tile[1])}
       </div>
-    </button>
+    </motion.button>
   );
 }
 

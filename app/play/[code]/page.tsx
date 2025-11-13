@@ -20,6 +20,9 @@ import { SideSelectionModal } from '@/components/SideSelectionModal';
 import { GameOverModal } from '@/components/GameOverModal';
 import { MatchWinnerModal } from '@/components/MatchWinnerModal';
 import { VersionCheckModal } from '@/components/VersionCheckModal';
+import { ScorePop } from '@/components/ScorePop';
+import { TurnIndicator } from '@/components/TurnIndicator';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getValidPlacements, getValidPlacements4Way } from '@/lib/domino-utils';
 import { sanitizeGameState } from '@/lib/firestore-schema';
 import { useVersionCheck } from '@/hooks/useVersionCheck';
@@ -80,12 +83,22 @@ export default function GamePage({ params }: { params: { code: string } }) {
   const [matchFinished, setMatchFinished] = useState(false);
   const [forceRenderKey, setForceRenderKey] = useState(0);
   const [showVersionModal, setShowVersionModal] = useState(false);
+  const [showScorePop, setShowScorePop] = useState(false);
+  const [lastScoreShown, setLastScoreShown] = useState(0);
   
   // Version check - prompt for refresh when new version is available
   useVersionCheck(() => {
     console.log('🔄 New version detected - showing modal');
     setShowVersionModal(true);
   });
+
+  // Trigger score pop animation when score changes
+  useEffect(() => {
+    if (gameState && gameState.lastScore > 0 && gameState.lastScore !== lastScoreShown) {
+      setLastScoreShown(gameState.lastScore);
+      setShowScorePop(true);
+    }
+  }, [gameState?.lastScore, lastScoreShown]);
 
   useEffect(() => {
     initializeGame();
@@ -588,6 +601,9 @@ export default function GamePage({ params }: { params: { code: string } }) {
       )}
 
 
+      {/* Animated Turn Indicator */}
+      <TurnIndicator isMyTurn={isMyTurn} playerName={currentPlayer?.nickname} />
+
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-4">
         <div className="flex items-center justify-between">
@@ -599,7 +615,16 @@ export default function GamePage({ params }: { params: { code: string } }) {
             Leave Game
           </button>
           
-          <div className="text-center">
+          <motion.div 
+            className="text-center"
+            animate={{
+              scale: isMyTurn ? [1, 1.02, 1] : 1,
+            }}
+            transition={{
+              repeat: isMyTurn ? Infinity : 0,
+              duration: 2,
+            }}
+          >
             <h2 className="text-xl font-bold text-white">
               {isMyTurn ? "Your Turn!" : `${currentPlayer?.nickname || 'Player'}'s Turn`}
             </h2>
@@ -609,7 +634,7 @@ export default function GamePage({ params }: { params: { code: string } }) {
             <p className="text-xs text-gray-500">
               Match to 365 points
             </p>
-          </div>
+          </motion.div>
           
           <div className="w-24"></div>
         </div>
@@ -658,9 +683,20 @@ export default function GamePage({ params }: { params: { code: string } }) {
               Board: {gameState.board.length} tiles
             </div>
             {gameState.lastScore > 0 && (
-              <div className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-500/20 text-green-400 text-[10px] sm:text-xs font-medium rounded-full">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-500/20 text-green-400 text-[10px] sm:text-xs font-medium rounded-full"
+              >
                 +{gameState.lastScore}
-              </div>
+              </motion.div>
+            )}
+            {showScorePop && lastScoreShown > 0 && (
+              <ScorePop 
+                score={lastScoreShown} 
+                onComplete={() => setShowScorePop(false)}
+              />
             )}
           </div>
 
@@ -747,13 +783,15 @@ export default function GamePage({ params }: { params: { code: string } }) {
             ) : (
               gameState.myHand.map((tile, idx) => (
                 <DominoTile
-                  key={idx}
+                  key={`${tile[0]}-${tile[1]}-${idx}`}
                   tile={tile}
                   onClick={() => isMyTurn && handlePlayTile(tile)}
                   disabled={!isMyTurn || acting}
                   highlighted={selectedTile === tile}
                   orientation="vertical"
                   size="md"
+                  animateEntry={true}
+                  delay={idx * 0.05} // Stagger by 50ms each
                 />
               ))
             )}
@@ -761,17 +799,30 @@ export default function GamePage({ params }: { params: { code: string } }) {
 
           {/* Actions */}
           <div className="flex gap-2 sm:gap-3 flex-wrap">
-            <button
+            <motion.button
               onClick={handleDrawTile}
               disabled={!isMyTurn || acting || gameState.stockCount === 0 || hasValidMoves}
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02, y: -2 }}
               className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-purple-500 hover:bg-purple-600 disabled:bg-gray-700 disabled:text-gray-500 text-white text-sm sm:text-base font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
               title={hasValidMoves ? "You must play a tile first!" : "Draw a tile from the bazar"}
             >
-              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+              <motion.div
+                animate={gameState.stockCount > 0 && isMyTurn && !hasValidMoves ? { 
+                  rotate: [0, -10, 10, -10, 10, 0],
+                } : {}}
+                transition={{
+                  repeat: Infinity,
+                  duration: 2,
+                  repeatDelay: 1,
+                }}
+              >
+                <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+              </motion.div>
               <span className="hidden sm:inline">Draw from Bazar</span>
               <span className="sm:hidden">Draw</span>
               <span>({gameState.stockCount})</span>
-            </button>
+            </motion.button>
 
           </div>
           

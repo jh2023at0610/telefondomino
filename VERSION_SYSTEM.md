@@ -208,3 +208,4 @@ const VERSION_KEY = 'app_version'; // localStorage key
 
 **Remember:** Every time you update code, increment the version in `app/api/version/route.ts`! 🎯
 
+
