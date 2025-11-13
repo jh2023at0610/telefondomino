@@ -641,33 +641,33 @@ export default function GamePage({ params }: { params: { code: string } }) {
       </div>
 
       {/* Main Game Area */}
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Scores */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="max-w-7xl mx-auto space-y-3 sm:space-y-4">
+        {/* Scores - COMPACT */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
           {members.map((member) => (
             <div
               key={member.seat}
-              className={`p-4 rounded-lg border ${
+              className={`p-2 sm:p-3 rounded-lg border ${
                 gameState.turn === member.seat
                   ? 'bg-blue-500/20 border-blue-500'
                   : 'bg-gray-800/50 border-gray-700'
               }`}
             >
-              <p className="text-sm text-gray-400">{member.nickname}</p>
-              <div className="flex items-baseline gap-2">
-                <p className="text-2xl font-bold text-white">
+              <p className="text-xs sm:text-sm text-gray-400">{member.nickname}</p>
+              <div className="flex items-baseline gap-1.5">
+                <p className="text-xl sm:text-2xl font-bold text-white">
                   {gameState.matchScores[member.seat] || 0}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-[10px] sm:text-xs text-gray-500">
                   match
                 </p>
               </div>
               <div className="flex items-center justify-between">
-                <p className="text-sm text-blue-400">
+                <p className="text-xs sm:text-sm text-blue-400">
                   +{gameState.gameScores[member.seat] || 0} this game
                 </p>
                 {mySeat !== member.seat && (
-                  <p className="text-xs text-gray-500">
+                  <p className="text-[10px] sm:text-xs text-gray-500">
                     {gameState.others.find((o) => o.seat === member.seat)?.handCount || 0} tiles
                   </p>
                 )}
@@ -676,8 +676,8 @@ export default function GamePage({ params }: { params: { code: string } }) {
           ))}
         </div>
 
-        {/* Board - Optimized for more tiles */}
-        <div className="bg-gray-800/50 rounded-2xl p-2 sm:p-4 border border-gray-700">
+        {/* Board - ENLARGED for better visibility */}
+        <div className="bg-gray-800/50 rounded-2xl p-4 sm:p-6 border border-gray-700 min-h-[300px] sm:min-h-[400px]">
           <div className="flex items-center gap-2 mb-2 sm:mb-3">
             <div className="text-[10px] sm:text-xs text-gray-400">
               Board: {gameState.board.length} tiles
@@ -771,15 +771,15 @@ export default function GamePage({ params }: { params: { code: string } }) {
           )}
         </div>
 
-        {/* My Hand - Compact & Mobile-Friendly */}
-        <div className="bg-gray-800/50 rounded-2xl p-3 sm:p-4 border border-gray-700">
-          <h3 className="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3">
+        {/* My Hand - COMPACT for more board space */}
+        <div className="bg-gray-800/50 rounded-2xl p-2 sm:p-3 border border-gray-700">
+          <h3 className="text-xs sm:text-sm font-semibold text-white mb-1.5 sm:mb-2">
             Your Hand ({gameState.myHand.length} tiles)
           </h3>
           
-          <div className="flex flex-wrap gap-2 sm:gap-3 mb-3 justify-center sm:justify-start">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-2 justify-center sm:justify-start">
             {gameState.myHand.length === 0 ? (
-              <p className="text-gray-500 text-sm">No tiles in hand</p>
+              <p className="text-gray-500 text-xs">No tiles in hand</p>
             ) : (
               gameState.myHand.map((tile, idx) => (
                 <DominoTile
@@ -789,7 +789,7 @@ export default function GamePage({ params }: { params: { code: string } }) {
                   disabled={!isMyTurn || acting}
                   highlighted={selectedTile === tile}
                   orientation="vertical"
-                  size="md"
+                  size="sm"
                   animateEntry={true}
                   delay={idx * 0.05} // Stagger by 50ms each
                 />
@@ -798,13 +798,13 @@ export default function GamePage({ params }: { params: { code: string } }) {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2 sm:gap-3 flex-wrap">
+          <div className="flex gap-2 flex-wrap">
             <motion.button
               onClick={handleDrawTile}
               disabled={!isMyTurn || acting || gameState.stockCount === 0 || hasValidMoves}
               whileTap={{ scale: 0.95 }}
               whileHover={{ scale: 1.02, y: -2 }}
-              className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-purple-500 hover:bg-purple-600 disabled:bg-gray-700 disabled:text-gray-500 text-white text-sm sm:text-base font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 bg-purple-500 hover:bg-purple-600 disabled:bg-gray-700 disabled:text-gray-500 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1.5"
               title={hasValidMoves ? "You must play a tile first!" : "Draw a tile from the bazar"}
             >
               <motion.div
@@ -817,7 +817,7 @@ export default function GamePage({ params }: { params: { code: string } }) {
                   repeatDelay: 1,
                 }}
               >
-                <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </motion.div>
               <span className="hidden sm:inline">Draw from Bazar</span>
               <span className="sm:hidden">Draw</span>
@@ -828,7 +828,7 @@ export default function GamePage({ params }: { params: { code: string } }) {
           
           {/* Help Text */}
           {isMyTurn && (
-            <div className="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-400 space-y-1">
+            <div className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs text-gray-400 space-y-0.5">
               {isEmptyBoard ? (
                 <p>🎯 <span className="text-blue-400 font-semibold">Pick ANY tile to start!</span> {gameState.gameIndex > 0 && <span className="text-yellow-400 block sm:inline">(Hint: [5-5] scores 10 if {'<'} 300pts)</span>}</p>
               ) : hasValidMoves ? (
