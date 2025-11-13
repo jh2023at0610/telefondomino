@@ -111,12 +111,14 @@ export function DominoBoard({
               const displayTile: Tile = played.flipped 
                 ? [played.tile[1], played.tile[0]]
                 : played.tile;
+              // Check if it's a double tile
+              const isDouble = displayTile[0] === displayTile[1];
               return (
                 <div key={`up-${idx}`} className="flex-shrink-0">
                   <DominoTile 
                     tile={displayTile} 
                     size="sm" 
-                    orientation="horizontal" 
+                    orientation={isDouble ? "horizontal" : "vertical"} 
                   />
                 </div>
               );
@@ -194,12 +196,14 @@ export function DominoBoard({
               const displayTile: Tile = played.flipped 
                 ? [played.tile[1], played.tile[0]]
                 : played.tile;
+              // Check if it's a double tile
+              const isDouble = displayTile[0] === displayTile[1];
               return (
                 <div key={`down-${idx}`} className="flex-shrink-0">
                   <DominoTile 
                     tile={displayTile} 
                     size="sm" 
-                    orientation="horizontal" 
+                    orientation={isDouble ? "horizontal" : "vertical"} 
                   />
                 </div>
               );
