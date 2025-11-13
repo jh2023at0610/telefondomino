@@ -47,111 +47,60 @@ export function DominoTile({
   };
 
   const renderDots = (value: number) => {
-    const dotClass = `${dotSizes[size]} bg-gray-900 rounded-full flex-shrink-0`;
+    // SVG approach - most reliable across ALL devices and pixel densities
+    // SVG coordinates are absolute and work consistently
+    const dotRadius = size === 'sm' ? 2 : size === 'md' ? 3 : 4;
     
-    // Render different dot patterns based on value - ULTRA SIMPLE
     if (value === 0) {
       return <div className="w-full h-full" />;
     }
 
-    if (value === 1) {
-      return (
-        <div className="w-full h-full flex items-center justify-center p-2">
-          <div className={dotClass} />
-        </div>
-      );
-    }
+    // SVG viewBox: 100x100 coordinate system
+    const renderSVGDots = () => {
+      const dots: { cx: number; cy: number }[] = [];
+      
+      switch (value) {
+        case 1:
+          dots.push({ cx: 50, cy: 50 });
+          break;
+        case 2:
+          dots.push({ cx: 25, cy: 25 }, { cx: 75, cy: 75 });
+          break;
+        case 3:
+          dots.push({ cx: 25, cy: 25 }, { cx: 50, cy: 50 }, { cx: 75, cy: 75 });
+          break;
+        case 4:
+          dots.push({ cx: 30, cy: 30 }, { cx: 70, cy: 30 }, { cx: 30, cy: 70 }, { cx: 70, cy: 70 });
+          break;
+        case 5:
+          dots.push({ cx: 25, cy: 25 }, { cx: 75, cy: 25 }, { cx: 50, cy: 50 }, { cx: 25, cy: 75 }, { cx: 75, cy: 75 });
+          break;
+        case 6:
+          dots.push(
+            { cx: 35, cy: 20 }, { cx: 65, cy: 20 },
+            { cx: 35, cy: 50 }, { cx: 65, cy: 50 },
+            { cx: 35, cy: 80 }, { cx: 65, cy: 80 }
+          );
+          break;
+      }
+      
+      return dots;
+    };
 
-    if (value === 2) {
-      return (
-        <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between items-stretch">
-            <div className="w-full flex justify-start items-start">
-              <div className={dotClass} style={{ marginLeft: '10%' }} />
-            </div>
-            <div className="w-full flex justify-end items-end">
-              <div className={dotClass} style={{ marginRight: '10%' }} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (value === 3) {
-      return (
-        <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between items-stretch">
-            <div className="w-full flex justify-start items-start">
-              <div className={dotClass} style={{ marginLeft: '10%' }} />
-            </div>
-            <div className="w-full flex justify-center items-center">
-              <div className={dotClass} />
-            </div>
-            <div className="w-full flex justify-end items-end">
-              <div className={dotClass} style={{ marginRight: '10%' }} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (value === 4) {
-      return (
-        <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between items-stretch">
-            <div className="w-full flex justify-between items-center px-1">
-              <div className={dotClass} />
-              <div className={dotClass} />
-            </div>
-            <div className="w-full flex justify-between items-center px-1">
-              <div className={dotClass} />
-              <div className={dotClass} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (value === 5) {
-      return (
-        <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between items-stretch">
-            <div className="w-full flex justify-between items-center px-1">
-              <div className={dotClass} />
-              <div className={dotClass} />
-            </div>
-            <div className="w-full flex justify-center items-center">
-              <div className={dotClass} />
-            </div>
-            <div className="w-full flex justify-between items-center px-1">
-              <div className={dotClass} />
-              <div className={dotClass} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (value === 6) {
-      return (
-        <div className="w-full h-full p-2">
-          <div className="h-full flex justify-between items-stretch px-1">
-            <div className="flex flex-col justify-between items-center">
-              <div className={dotClass} />
-              <div className={dotClass} />
-              <div className={dotClass} />
-            </div>
-            <div className="flex flex-col justify-between items-center">
-              <div className={dotClass} />
-              <div className={dotClass} />
-              <div className={dotClass} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return <div className="w-full h-full" />;
+    return (
+      <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        {renderSVGDots().map((dot, idx) => (
+          <circle
+            key={idx}
+            cx={dot.cx}
+            cy={dot.cy}
+            r={dotRadius * 2}
+            fill="#111827"
+            className="transition-all"
+          />
+        ))}
+      </svg>
+    );
   };
 
   return (
