@@ -60,14 +60,15 @@ export function DominoTile({
     const dots = positions[value] || [];
 
     // Better spacing for mobile - dots won't get cut off
+    // Using more generous spacing to ensure dots are fully visible
     const spacing = {
-      sm: '0.375rem',  // 6px for small tiles (board)
-      md: '0.5rem',    // 8px for medium tiles (hand)
-      lg: '0.625rem',  // 10px for large tiles (modals)
+      sm: '0.5rem',    // 8px for small tiles (board) - increased!
+      md: '0.625rem',  // 10px for medium tiles (hand) - increased!
+      lg: '0.75rem',   // 12px for large tiles (modals)
     };
 
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-0.5">
+      <div className="relative w-full h-full flex items-center justify-center">
         {dots.map((pos, idx) => {
           let positionStyle: React.CSSProperties = {};
           
@@ -140,6 +141,7 @@ export function DominoTile({
       className={`
         ${sizeClasses[size]}
         relative
+        overflow-hidden
         bg-gradient-to-br from-gray-100 to-gray-200
         rounded-lg
         shadow-lg
@@ -152,12 +154,12 @@ export function DominoTile({
       `}
     >
       {/* First half (top for vertical, left for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-1.5`}>
+      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-2 relative overflow-hidden`}>
         {renderDots(tile[0])}
       </div>
       
       {/* Second half (bottom for vertical, right for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-1.5`}>
+      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-2 relative overflow-hidden`}>
         {renderDots(tile[1])}
       </div>
     </motion.button>
