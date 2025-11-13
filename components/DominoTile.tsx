@@ -65,12 +65,12 @@ export function DominoTile({
     if (value === 2) {
       return (
         <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between">
-            <div className="w-full flex justify-start">
-              <div className={dotClass} />
+          <div className="h-full flex flex-col justify-between items-stretch">
+            <div className="w-full flex justify-start items-start">
+              <div className={dotClass} style={{ marginLeft: '10%' }} />
             </div>
-            <div className="w-full flex justify-end">
-              <div className={dotClass} />
+            <div className="w-full flex justify-end items-end">
+              <div className={dotClass} style={{ marginRight: '10%' }} />
             </div>
           </div>
         </div>
@@ -80,15 +80,15 @@ export function DominoTile({
     if (value === 3) {
       return (
         <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between">
-            <div className="w-full flex justify-start">
+          <div className="h-full flex flex-col justify-between items-stretch">
+            <div className="w-full flex justify-start items-start">
+              <div className={dotClass} style={{ marginLeft: '10%' }} />
+            </div>
+            <div className="w-full flex justify-center items-center">
               <div className={dotClass} />
             </div>
-            <div className="w-full flex justify-center">
-              <div className={dotClass} />
-            </div>
-            <div className="w-full flex justify-end">
-              <div className={dotClass} />
+            <div className="w-full flex justify-end items-end">
+              <div className={dotClass} style={{ marginRight: '10%' }} />
             </div>
           </div>
         </div>
@@ -98,12 +98,12 @@ export function DominoTile({
     if (value === 4) {
       return (
         <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between">
-            <div className="w-full flex justify-between">
+          <div className="h-full flex flex-col justify-between items-stretch">
+            <div className="w-full flex justify-between items-center px-1">
               <div className={dotClass} />
               <div className={dotClass} />
             </div>
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between items-center px-1">
               <div className={dotClass} />
               <div className={dotClass} />
             </div>
@@ -115,15 +115,15 @@ export function DominoTile({
     if (value === 5) {
       return (
         <div className="w-full h-full p-2">
-          <div className="h-full flex flex-col justify-between">
-            <div className="w-full flex justify-between">
+          <div className="h-full flex flex-col justify-between items-stretch">
+            <div className="w-full flex justify-between items-center px-1">
               <div className={dotClass} />
               <div className={dotClass} />
             </div>
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center items-center">
               <div className={dotClass} />
             </div>
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between items-center px-1">
               <div className={dotClass} />
               <div className={dotClass} />
             </div>
@@ -135,13 +135,13 @@ export function DominoTile({
     if (value === 6) {
       return (
         <div className="w-full h-full p-2">
-          <div className="h-full flex justify-between">
-            <div className="w-auto flex flex-col justify-between">
+          <div className="h-full flex justify-between items-stretch px-1">
+            <div className="flex flex-col justify-between items-center">
               <div className={dotClass} />
               <div className={dotClass} />
               <div className={dotClass} />
             </div>
-            <div className="w-auto flex flex-col justify-between">
+            <div className="flex flex-col justify-between items-center">
               <div className={dotClass} />
               <div className={dotClass} />
               <div className={dotClass} />
