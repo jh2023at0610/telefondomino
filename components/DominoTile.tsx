@@ -59,41 +59,42 @@ export function DominoTile({
 
     const dots = positions[value] || [];
 
-    // AGGRESSIVE spacing for real iPhone - using larger fixed values
-    // 8px minimum from edges to prevent any cutoff
+    // Use CSS Grid for reliable positioning on ALL devices including high-DPI iPhones
+    // Grid ensures dots ALWAYS stay within bounds
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
-        {dots.map((pos, idx) => {
-          let positionClass = '';
+      <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-0 p-1.5">
+        {positions[value]?.map((pos, idx) => {
+          // Grid positioning - much more reliable than absolute positioning
+          let gridClass = '';
           
           switch (pos) {
             case 'top-left':
-              positionClass = 'top-2 left-2';  // 8px from edges
+              gridClass = 'col-start-1 row-start-1 self-start justify-self-start';
               break;
             case 'top-right':
-              positionClass = 'top-2 right-2';  // 8px from edges
+              gridClass = 'col-start-3 row-start-1 self-start justify-self-end';
               break;
             case 'middle-left':
-              positionClass = 'top-1/2 -translate-y-1/2 left-2';  // 8px from left
+              gridClass = 'col-start-1 row-start-2 self-center justify-self-start';
               break;
             case 'middle-right':
-              positionClass = 'top-1/2 -translate-y-1/2 right-2';  // 8px from right
+              gridClass = 'col-start-3 row-start-2 self-center justify-self-end';
               break;
             case 'center':
-              positionClass = 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
+              gridClass = 'col-start-2 row-start-2 self-center justify-self-center';
               break;
             case 'bottom-left':
-              positionClass = 'bottom-2 left-2';  // 8px from edges
+              gridClass = 'col-start-1 row-start-3 self-end justify-self-start';
               break;
             case 'bottom-right':
-              positionClass = 'bottom-2 right-2';  // 8px from edges
+              gridClass = 'col-start-3 row-start-3 self-end justify-self-end';
               break;
           }
 
           return (
             <div
               key={idx}
-              className={`absolute ${positionClass} ${dotSizes[size]} bg-gray-900 rounded-full`}
+              className={`${gridClass} ${dotSizes[size]} bg-gray-900 rounded-full`}
             />
           );
         })}
@@ -146,12 +147,12 @@ export function DominoTile({
       `}
     >
       {/* First half (top for vertical, left for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-1 relative`}>
+      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400`}>
         {renderDots(tile[0])}
       </div>
       
       {/* Second half (bottom for vertical, right for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-1 relative`}>
+      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'}`}>
         {renderDots(tile[1])}
       </div>
     </motion.button>
