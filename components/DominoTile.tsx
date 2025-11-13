@@ -60,34 +60,34 @@ export function DominoTile({
     const dots = positions[value] || [];
 
     // Use CSS Grid for reliable positioning on ALL devices including high-DPI iPhones
-    // Grid ensures dots ALWAYS stay within bounds
+    // Grid ensures dots ALWAYS stay within bounds with proper centering
     return (
-      <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-0 p-1.5">
+      <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-0 p-2">
         {positions[value]?.map((pos, idx) => {
-          // Grid positioning - much more reliable than absolute positioning
+          // Grid positioning with proper alignment for classic domino look
           let gridClass = '';
           
           switch (pos) {
             case 'top-left':
-              gridClass = 'col-start-1 row-start-1 self-start justify-self-start';
+              gridClass = 'col-start-1 row-start-1 place-self-center';
               break;
             case 'top-right':
-              gridClass = 'col-start-3 row-start-1 self-start justify-self-end';
+              gridClass = 'col-start-3 row-start-1 place-self-center';
               break;
             case 'middle-left':
-              gridClass = 'col-start-1 row-start-2 self-center justify-self-start';
+              gridClass = 'col-start-1 row-start-2 place-self-center';
               break;
             case 'middle-right':
-              gridClass = 'col-start-3 row-start-2 self-center justify-self-end';
+              gridClass = 'col-start-3 row-start-2 place-self-center';
               break;
             case 'center':
-              gridClass = 'col-start-2 row-start-2 self-center justify-self-center';
+              gridClass = 'col-start-2 row-start-2 place-self-center';
               break;
             case 'bottom-left':
-              gridClass = 'col-start-1 row-start-3 self-end justify-self-start';
+              gridClass = 'col-start-1 row-start-3 place-self-center';
               break;
             case 'bottom-right':
-              gridClass = 'col-start-3 row-start-3 self-end justify-self-end';
+              gridClass = 'col-start-3 row-start-3 place-self-center';
               break;
           }
 
