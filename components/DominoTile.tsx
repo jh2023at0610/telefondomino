@@ -32,18 +32,18 @@ export function DominoTile({
   
   // Size classes based on orientation - RESPONSIVE for mobile
   const sizeClasses = {
-    // Board tiles - smaller, more compact
-    sm: isVertical ? 'w-7 h-14 sm:w-8 sm:h-16' : 'w-14 h-7 sm:w-16 sm:h-8',
-    // Hand tiles - larger on mobile for better touch targets
-    md: isVertical ? 'w-14 h-28 sm:w-12 sm:h-24 md:w-14 md:h-28' : 'w-28 h-14 sm:w-24 sm:h-12 md:w-28 md:h-14',
+    // Board tiles - smaller, more compact (slightly bigger on mobile now)
+    sm: isVertical ? 'w-8 h-16 sm:w-8 sm:h-16' : 'w-16 h-8 sm:w-16 sm:h-8',
+    // Hand tiles - BIGGER on mobile for dots to fit properly
+    md: isVertical ? 'w-16 h-32 sm:w-14 sm:h-28 md:w-16 md:h-32' : 'w-32 h-16 sm:w-28 sm:h-14 md:w-32 md:h-16',
     // Selection/Modal tiles - nice and big
-    lg: isVertical ? 'w-16 h-32 sm:w-18 sm:h-36' : 'w-32 h-16 sm:w-36 sm:h-18',
+    lg: isVertical ? 'w-18 h-36 sm:w-20 sm:h-40' : 'w-36 h-18 sm:w-40 sm:h-20',
   };
 
   const dotSizes = {
-    sm: 'w-1 h-1 sm:w-1.5 sm:h-1.5',        // Responsive dots
-    md: 'w-1.5 h-1.5 sm:w-2 sm:h-2',        // Bigger on mobile
-    lg: 'w-2 h-2 sm:w-2.5 sm:h-2.5',        // Even bigger
+    sm: 'w-1 h-1',                           // Tiny dots for board tiles (4px)
+    md: 'w-1.5 h-1.5',                       // Small dots for hand tiles (6px)
+    lg: 'w-2 h-2',                           // Normal dots for modals (8px)
   };
 
   const renderDots = (value: number) => {
@@ -60,11 +60,11 @@ export function DominoTile({
     const dots = positions[value] || [];
 
     // Better spacing for mobile - dots won't get cut off
-    // Using more generous spacing to ensure dots are fully visible
+    // Using generous spacing + percentage to ensure dots are fully visible on all sizes
     const spacing = {
-      sm: '0.5rem',    // 8px for small tiles (board) - increased!
-      md: '0.625rem',  // 10px for medium tiles (hand) - increased!
-      lg: '0.75rem',   // 12px for large tiles (modals)
+      sm: '12%',   // 12% from edge for small tiles (board)
+      md: '15%',   // 15% from edge for medium tiles (hand)
+      lg: '18%',   // 18% from edge for large tiles (modals)
     };
 
     return (
@@ -141,7 +141,6 @@ export function DominoTile({
       className={`
         ${sizeClasses[size]}
         relative
-        overflow-hidden
         bg-gradient-to-br from-gray-100 to-gray-200
         rounded-lg
         shadow-lg
@@ -154,12 +153,12 @@ export function DominoTile({
       `}
     >
       {/* First half (top for vertical, left for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-2 relative overflow-hidden`}>
+      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-2 relative`}>
         {renderDots(tile[0])}
       </div>
       
       {/* Second half (bottom for vertical, right for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-2 relative overflow-hidden`}>
+      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-2 relative`}>
         {renderDots(tile[1])}
       </div>
     </motion.button>
