@@ -59,34 +59,34 @@ export function DominoTile({
 
     const dots = positions[value] || [];
 
-    // Use Tailwind's inset utilities for consistent positioning across all devices
-    // These work reliably on both emulators and real mobile hardware
+    // AGGRESSIVE spacing for real iPhone - using larger fixed values
+    // 8px minimum from edges to prevent any cutoff
     return (
-      <div className="relative w-full h-full flex items-center justify-center p-1">
+      <div className="relative w-full h-full flex items-center justify-center">
         {dots.map((pos, idx) => {
           let positionClass = '';
           
           switch (pos) {
             case 'top-left':
-              positionClass = 'top-1.5 left-1.5';
+              positionClass = 'top-2 left-2';  // 8px from edges
               break;
             case 'top-right':
-              positionClass = 'top-1.5 right-1.5';
+              positionClass = 'top-2 right-2';  // 8px from edges
               break;
             case 'middle-left':
-              positionClass = 'top-1/2 -translate-y-1/2 left-1.5';
+              positionClass = 'top-1/2 -translate-y-1/2 left-2';  // 8px from left
               break;
             case 'middle-right':
-              positionClass = 'top-1/2 -translate-y-1/2 right-1.5';
+              positionClass = 'top-1/2 -translate-y-1/2 right-2';  // 8px from right
               break;
             case 'center':
               positionClass = 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
               break;
             case 'bottom-left':
-              positionClass = 'bottom-1.5 left-1.5';
+              positionClass = 'bottom-2 left-2';  // 8px from edges
               break;
             case 'bottom-right':
-              positionClass = 'bottom-1.5 right-1.5';
+              positionClass = 'bottom-2 right-2';  // 8px from edges
               break;
           }
 
@@ -146,12 +146,12 @@ export function DominoTile({
       `}
     >
       {/* First half (top for vertical, left for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 relative`}>
+      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-1 relative`}>
         {renderDots(tile[0])}
       </div>
       
       {/* Second half (bottom for vertical, right for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} relative`}>
+      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-1 relative`}>
         {renderDots(tile[1])}
       </div>
     </motion.button>
