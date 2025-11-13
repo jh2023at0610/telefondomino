@@ -47,48 +47,66 @@ export function DominoTile({
   };
 
   const renderDots = (value: number) => {
-    // Render different dot patterns based on value
+    const dotClass = `${dotSizes[size]} bg-gray-900 rounded-full flex-shrink-0`;
+    
+    // Render different dot patterns based on value - ULTRA SIMPLE
     if (value === 0) {
       return <div className="w-full h-full" />;
     }
 
     if (value === 1) {
       return (
-        <div className="w-full h-full flex items-center justify-center">
-          <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+        <div className="w-full h-full flex items-center justify-center p-2">
+          <div className={dotClass} />
         </div>
       );
     }
 
     if (value === 2) {
       return (
-        <div className="w-full h-full flex flex-col items-center justify-between p-2">
-          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-start`} />
-          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-end`} />
+        <div className="w-full h-full p-2">
+          <div className="h-full flex flex-col justify-between">
+            <div className="w-full flex justify-start">
+              <div className={dotClass} />
+            </div>
+            <div className="w-full flex justify-end">
+              <div className={dotClass} />
+            </div>
+          </div>
         </div>
       );
     }
 
     if (value === 3) {
       return (
-        <div className="w-full h-full flex flex-col items-center justify-between p-2">
-          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-start`} />
-          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-center`} />
-          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-end`} />
+        <div className="w-full h-full p-2">
+          <div className="h-full flex flex-col justify-between">
+            <div className="w-full flex justify-start">
+              <div className={dotClass} />
+            </div>
+            <div className="w-full flex justify-center">
+              <div className={dotClass} />
+            </div>
+            <div className="w-full flex justify-end">
+              <div className={dotClass} />
+            </div>
+          </div>
         </div>
       );
     }
 
     if (value === 4) {
       return (
-        <div className="w-full h-full flex flex-col justify-between p-2">
-          <div className="flex justify-between">
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-          </div>
-          <div className="flex justify-between">
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+        <div className="w-full h-full p-2">
+          <div className="h-full flex flex-col justify-between">
+            <div className="w-full flex justify-between">
+              <div className={dotClass} />
+              <div className={dotClass} />
+            </div>
+            <div className="w-full flex justify-between">
+              <div className={dotClass} />
+              <div className={dotClass} />
+            </div>
           </div>
         </div>
       );
@@ -96,17 +114,19 @@ export function DominoTile({
 
     if (value === 5) {
       return (
-        <div className="w-full h-full flex flex-col justify-between p-2">
-          <div className="flex justify-between">
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-          </div>
-          <div className="flex justify-center">
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-          </div>
-          <div className="flex justify-between">
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+        <div className="w-full h-full p-2">
+          <div className="h-full flex flex-col justify-between">
+            <div className="w-full flex justify-between">
+              <div className={dotClass} />
+              <div className={dotClass} />
+            </div>
+            <div className="w-full flex justify-center">
+              <div className={dotClass} />
+            </div>
+            <div className="w-full flex justify-between">
+              <div className={dotClass} />
+              <div className={dotClass} />
+            </div>
           </div>
         </div>
       );
@@ -114,16 +134,18 @@ export function DominoTile({
 
     if (value === 6) {
       return (
-        <div className="w-full h-full flex justify-between p-2">
-          <div className="flex flex-col justify-between">
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-          </div>
-          <div className="flex flex-col justify-between">
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
-            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+        <div className="w-full h-full p-2">
+          <div className="h-full flex justify-between">
+            <div className="w-auto flex flex-col justify-between">
+              <div className={dotClass} />
+              <div className={dotClass} />
+              <div className={dotClass} />
+            </div>
+            <div className="w-auto flex flex-col justify-between">
+              <div className={dotClass} />
+              <div className={dotClass} />
+              <div className={dotClass} />
+            </div>
           </div>
         </div>
       );
