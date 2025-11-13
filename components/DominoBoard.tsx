@@ -116,7 +116,7 @@ export function DominoBoard({
                   <DominoTile 
                     tile={displayTile} 
                     size="sm" 
-                    orientation="vertical" 
+                    orientation="horizontal" 
                   />
                 </div>
               );
@@ -158,9 +158,6 @@ export function DominoBoard({
               size="sm" 
               orientation="vertical" 
             />
-            <div className="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-yellow-400 whitespace-nowrap">
-              🔒
-            </div>
           </div>
         )}
 
@@ -202,7 +199,7 @@ export function DominoBoard({
                   <DominoTile 
                     tile={displayTile} 
                     size="sm" 
-                    orientation="vertical" 
+                    orientation="horizontal" 
                   />
                 </div>
               );

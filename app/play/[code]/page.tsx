@@ -251,7 +251,6 @@ export default function GamePage({ params }: { params: { code: string } }) {
           
           if (!was4Way && now4Way) {
             console.log('🔒🔒🔒 4-WAY JUST ACTIVATED! Forcing full re-render...');
-            showToast('🔒 Double locked! 4-WAY MODE ACTIVATED!');
             setForceRenderKey(prev => prev + 1); // Force entire page re-render
           }
           
@@ -407,11 +406,6 @@ export default function GamePage({ params }: { params: { code: string } }) {
         showToast(result.error || 'Invalid move');
       } else {
         setSelectedTile(null);
-        
-        // Check if 4-way just activated
-        if (result.locked4Way) {
-          showToast('🔒 Double locked! 4-WAY MODE ACTIVATED!');
-        }
         
         if (result.score > 0) {
           showToast(`Telefon! You scored ${result.score} points!`);
@@ -741,7 +735,6 @@ export default function GamePage({ params }: { params: { code: string } }) {
               ) : (
                 // 4-WAY MODE: All 4 directions
                 <>
-                  <div className="font-bold text-yellow-400 px-1.5 py-0.5 bg-yellow-500/10 rounded">🔒 4-WAY!</div>
                   <div className="bg-gray-700/30 px-1.5 py-0.5 rounded">
                     L: <span className="text-white font-bold">{gameState.openEnds.left}</span>
                     {gameState.openEnds.leftIsDouble && <span className="text-yellow-400">(×2)</span>}
