@@ -47,59 +47,89 @@ export function DominoTile({
   };
 
   const renderDots = (value: number) => {
-    const positions: { [key: number]: string[] } = {
-      0: [],
-      1: ['center'],
-      2: ['top-left', 'bottom-right'],
-      3: ['top-left', 'center', 'bottom-right'],
-      4: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
-      5: ['top-left', 'top-right', 'center', 'bottom-left', 'bottom-right'],
-      6: ['top-left', 'top-right', 'middle-left', 'middle-right', 'bottom-left', 'bottom-right'],
-    };
+    // Render different dot patterns based on value
+    if (value === 0) {
+      return <div className="w-full h-full" />;
+    }
 
-    const dots = positions[value] || [];
+    if (value === 1) {
+      return (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+        </div>
+      );
+    }
 
-    // Use CSS Grid for reliable positioning on ALL devices including high-DPI iPhones
-    // Grid ensures dots ALWAYS stay within bounds with proper centering
-    return (
-      <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-0 p-2">
-        {positions[value]?.map((pos, idx) => {
-          // Grid positioning with proper alignment for classic domino look
-          let gridClass = '';
-          
-          switch (pos) {
-            case 'top-left':
-              gridClass = 'col-start-1 row-start-1 place-self-center';
-              break;
-            case 'top-right':
-              gridClass = 'col-start-3 row-start-1 place-self-center';
-              break;
-            case 'middle-left':
-              gridClass = 'col-start-1 row-start-2 place-self-center';
-              break;
-            case 'middle-right':
-              gridClass = 'col-start-3 row-start-2 place-self-center';
-              break;
-            case 'center':
-              gridClass = 'col-start-2 row-start-2 place-self-center';
-              break;
-            case 'bottom-left':
-              gridClass = 'col-start-1 row-start-3 place-self-center';
-              break;
-            case 'bottom-right':
-              gridClass = 'col-start-3 row-start-3 place-self-center';
-              break;
-          }
+    if (value === 2) {
+      return (
+        <div className="w-full h-full flex flex-col items-center justify-between p-2">
+          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-start`} />
+          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-end`} />
+        </div>
+      );
+    }
 
-          return (
-            <div
-              key={idx}
-              className={`${gridClass} ${dotSizes[size]} bg-gray-900 rounded-full`}
-            />
-          );
-        })}
-      </div>
-    );
+    if (value === 3) {
+      return (
+        <div className="w-full h-full flex flex-col items-center justify-between p-2">
+          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-start`} />
+          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-center`} />
+          <div className={`${dotSizes[size]} bg-gray-900 rounded-full self-end`} />
+        </div>
+      );
+    }
+
+    if (value === 4) {
+      return (
+        <div className="w-full h-full flex flex-col justify-between p-2">
+          <div className="flex justify-between">
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+          </div>
+          <div className="flex justify-between">
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+          </div>
+        </div>
+      );
+    }
+
+    if (value === 5) {
+      return (
+        <div className="w-full h-full flex flex-col justify-between p-2">
+          <div className="flex justify-between">
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+          </div>
+          <div className="flex justify-center">
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+          </div>
+          <div className="flex justify-between">
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+          </div>
+        </div>
+      );
+    }
+
+    if (value === 6) {
+      return (
+        <div className="w-full h-full flex justify-between p-2">
+          <div className="flex flex-col justify-between">
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+          </div>
+          <div className="flex flex-col justify-between">
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+            <div className={`${dotSizes[size]} bg-gray-900 rounded-full`} />
+          </div>
+        </div>
+      );
+    }
+
+    return <div className="w-full h-full" />;
   };
 
   return (
