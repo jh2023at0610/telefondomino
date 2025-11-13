@@ -59,48 +59,41 @@ export function DominoTile({
 
     const dots = positions[value] || [];
 
-    // Better spacing for mobile - dots won't get cut off
-    // Using generous spacing + percentage to ensure dots are fully visible on all sizes
-    const spacing = {
-      sm: '12%',   // 12% from edge for small tiles (board)
-      md: '15%',   // 15% from edge for medium tiles (hand)
-      lg: '18%',   // 18% from edge for large tiles (modals)
-    };
-
+    // Use Tailwind's inset utilities for consistent positioning across all devices
+    // These work reliably on both emulators and real mobile hardware
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative w-full h-full flex items-center justify-center p-1">
         {dots.map((pos, idx) => {
-          let positionStyle: React.CSSProperties = {};
+          let positionClass = '';
           
           switch (pos) {
             case 'top-left':
-              positionStyle = { top: spacing[size], left: spacing[size] };
+              positionClass = 'top-1.5 left-1.5';
               break;
             case 'top-right':
-              positionStyle = { top: spacing[size], right: spacing[size] };
+              positionClass = 'top-1.5 right-1.5';
               break;
             case 'middle-left':
-              positionStyle = { top: '50%', left: spacing[size], transform: 'translateY(-50%)' };
+              positionClass = 'top-1/2 -translate-y-1/2 left-1.5';
               break;
             case 'middle-right':
-              positionStyle = { top: '50%', right: spacing[size], transform: 'translateY(-50%)' };
+              positionClass = 'top-1/2 -translate-y-1/2 right-1.5';
               break;
             case 'center':
-              positionStyle = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
+              positionClass = 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
               break;
             case 'bottom-left':
-              positionStyle = { bottom: spacing[size], left: spacing[size] };
+              positionClass = 'bottom-1.5 left-1.5';
               break;
             case 'bottom-right':
-              positionStyle = { bottom: spacing[size], right: spacing[size] };
+              positionClass = 'bottom-1.5 right-1.5';
               break;
           }
 
           return (
             <div
               key={idx}
-              style={positionStyle}
-              className={`absolute ${dotSizes[size]} bg-gray-900 rounded-full`}
+              className={`absolute ${positionClass} ${dotSizes[size]} bg-gray-900 rounded-full`}
             />
           );
         })}
@@ -153,12 +146,12 @@ export function DominoTile({
       `}
     >
       {/* First half (top for vertical, left for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 p-2 relative`}>
+      <div className={`${isVertical ? 'h-1/2 border-b' : 'w-1/2 border-r'} border-gray-400 relative`}>
         {renderDots(tile[0])}
       </div>
       
       {/* Second half (bottom for vertical, right for horizontal) */}
-      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} p-2 relative`}>
+      <div className={`${isVertical ? 'h-1/2' : 'w-1/2'} relative`}>
         {renderDots(tile[1])}
       </div>
     </motion.button>
