@@ -674,7 +674,10 @@ export default function GamePage({ params }: { params: { code: string } }) {
         <div className="bg-gray-800/50 rounded-2xl p-4 sm:p-6 border border-gray-700 min-h-[300px] sm:min-h-[400px]">
           <div className="flex items-center gap-2 mb-2 sm:mb-3">
             <div className="text-[10px] sm:text-xs text-gray-400">
-              Board: {gameState.board.length} tiles
+              Board: {gameState.is4WayActive 
+                ? gameState.leftChain.length + gameState.rightChain.length + gameState.upChain.length + gameState.downChain.length + (gameState.lockedDouble ? 1 : 0)
+                : gameState.board.length
+              } tiles
             </div>
             {gameState.lastScore > 0 && (
               <motion.div
