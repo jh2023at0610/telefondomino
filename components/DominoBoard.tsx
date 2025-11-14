@@ -117,9 +117,6 @@ export function DominoBoard({
                     </div>
                   );
                 })}
-                {leftSide.length > 0 && (
-                  <div className="text-xs text-gray-500">←</div>
-                )}
               </div>
             )}
             
@@ -152,9 +149,6 @@ export function DominoBoard({
                     </div>
                   );
                 })}
-                {rightSide.length > 0 && (
-                  <div className="text-xs text-gray-500 ml-1">→</div>
-                )}
               </div>
             )}
           </div>
@@ -190,9 +184,6 @@ export function DominoBoard({
                 </div>
               );
             })}
-            {upChain.length > 0 && (
-              <div className="text-xs text-gray-500 text-center">↑</div>
-            )}
           </div>
         </div>
 
@@ -213,9 +204,6 @@ export function DominoBoard({
                 </div>
               );
             })}
-            {leftChain.length > 0 && (
-              <div className="text-xs text-gray-500">←</div>
-            )}
           </div>
         </div>
 
@@ -247,18 +235,12 @@ export function DominoBoard({
                 </div>
               );
             })}
-            {rightChain.length > 0 && (
-              <div className="text-xs text-gray-500 ml-1">→</div>
-            )}
           </div>
         </div>
 
         {/* DOWN CHAIN - extends downward from locked double */}
         <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1">
           <div className="flex flex-col items-center gap-1">
-            {downChain.length > 0 && (
-              <div className="text-xs text-gray-500 text-center">↓</div>
-            )}
             {downChain.map((played, idx) => {
               const displayTile: Tile = played.flipped 
                 ? [played.tile[1], played.tile[0]]
