@@ -70,27 +70,94 @@ export function DominoBoard({
     );
   }
 
-  // 2-WAY MODE: Display horizontal snake pattern
+  // 2-WAY MODE: Display horizontal snake pattern - CENTERED from start
   if (!is4WayActive) {
     console.log('📏 Rendering 2-WAY mode with', board.length, 'tiles');
+    
+    // The board array structure is: [...left tiles][first tile][...right tiles]
+    // The first tile (center) is the one with the earliest timestamp (played when board was empty)
+    // OR it's the tile at the position where left and right sides meet
+    if (board.length === 0) {
+      return (
+        <div className="w-full min-h-[300px] sm:min-h-[400px] bg-gray-900/30 rounded-lg p-6 flex items-center justify-center">
+          <p className="text-gray-500 text-sm">No tiles played yet</p>
+        </div>
+      );
+    }
+    
+    // Find the center tile (first tile played - has earliest timestamp)
+    const centerTile = board.reduce((earliest, current) => 
+      current.timestamp < earliest.timestamp ? current : earliest
+    );
+    const centerIdx = board.findIndex(t => t === centerTile);
+    
+    // Split board: left side (before center), center, right side (after center)
+    const leftSide = board.slice(0, centerIdx).reverse(); // Reverse to display right-to-left
+    const rightSide = board.slice(centerIdx + 1);
+    
     return (
-      <div className="w-full min-h-[200px] bg-gray-900/30 rounded-lg p-4">
-        <div className="flex flex-wrap gap-1 items-start">
-          {board.map((played, idx) => {
-            const displayTile: Tile = played.flipped 
-              ? [played.tile[1], played.tile[0]]
-              : played.tile;
-            
-            return (
-              <div key={idx} className="flex-shrink-0">
-                <DominoTile 
-                  tile={displayTile} 
-                  size="sm"
-                  orientation="auto"
-                />
+      <div className="w-full min-h-[300px] sm:min-h-[400px] bg-gray-900/30 rounded-lg p-6 relative overflow-auto">
+        {/* Centered container */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="flex items-center gap-1">
+            {/* LEFT SIDE - extends left from center */}
+            {leftSide.length > 0 && (
+              <div className="flex flex-row-reverse items-center gap-1">
+                {leftSide.map((played, idx) => {
+                  const displayTile: Tile = played.flipped 
+                    ? [played.tile[1], played.tile[0]]
+                    : played.tile;
+                  return (
+                    <div key={`left-${idx}`} className="flex-shrink-0">
+                      <DominoTile 
+                        tile={displayTile} 
+                        size="sm"
+                        orientation="auto"
+                      />
+                    </div>
+                  );
+                })}
+                {leftSide.length > 0 && (
+                  <div className="text-xs text-gray-500">←</div>
+                )}
               </div>
-            );
-          })}
+            )}
+            
+            {/* CENTER TILE (first tile played) */}
+            <div className="flex-shrink-0">
+              <DominoTile 
+                tile={centerTile.flipped 
+                  ? [centerTile.tile[1], centerTile.tile[0]]
+                  : centerTile.tile
+                } 
+                size="sm"
+                orientation="auto"
+              />
+            </div>
+            
+            {/* RIGHT SIDE - extends right from center */}
+            {rightSide.length > 0 && (
+              <div className="flex items-center gap-1">
+                {rightSide.map((played, idx) => {
+                  const displayTile: Tile = played.flipped 
+                    ? [played.tile[1], played.tile[0]]
+                    : played.tile;
+                  return (
+                    <div key={`right-${idx}`} className="flex-shrink-0">
+                      <DominoTile 
+                        tile={displayTile} 
+                        size="sm"
+                        orientation="auto"
+                      />
+                    </div>
+                  );
+                })}
+                {rightSide.length > 0 && (
+                  <div className="text-xs text-gray-500 ml-1">→</div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
